@@ -3,5 +3,6 @@
 !*.vhd
 !rtl/Simu/*
 !*.qsf
+!*.qpf
 !*.pdf
 !*/
