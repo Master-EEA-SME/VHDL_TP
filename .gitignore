@@ -5,5 +5,14 @@
 !*.qsf
 !*.qpf
 !*.pdf
+!*.qip
+!*.qsys
+
+!*.c
+
 !img/*
 !*/
+*_inst.vhd
+rtl/IP/Mcu/Mcu/*
+*_bsp
+db
