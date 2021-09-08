@@ -7,6 +7,8 @@
 !*.pdf
 !*.qip
 !*_hw.tcl
+!*.sdc
+!*.stp
 !*.qsys
 
 !*.c
