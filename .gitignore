@@ -6,6 +6,7 @@
 !*.qpf
 !*.pdf
 !*.qip
+!*_hw.tcl
 !*.qsys
 
 !*.c

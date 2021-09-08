@@ -79,13 +79,31 @@
  */
 
 #include "sys/alt_stdio.h"
+#include <stdio.h>
 #include "io.h"
 #include "system.h"
 #include <unistd.h>
+#include <stdint.h>
+#include <stddef.h>
+void readSlave()
+{
+	printf("sReg = %08X\n", 				IORD(AVALONSLAVE_0_BASE, 0));
+	printf("sRegByteEnable = %08X\n", 		IORD(AVALONSLAVE_0_BASE, 1));
+	printf("sReadCount = %08X\n", 			IORD(AVALONSLAVE_0_BASE, 2));
+	printf("sReadCountPipelined = %08X\n", 	IORD(AVALONSLAVE_0_BASE, 3));
+	/*
+	volatile uint32_t *AvalonPtr = (uint32_t *)AVALONSLAVE_0_BASE;
+	printf("sReg = %08X\n", 				AvalonPtr[0]);
+	printf("sRegByteEnable = %08X\n", 		AvalonPtr[1]);
+	printf("sReadCount = %08X\n", 			AvalonPtr[2]);
+	printf("sReadCountPipelined = %08X\n", 	AvalonPtr[3]);
+	*/
+
+}
 int main()
 { 
   alt_putstr("Hello from Nios II!\n");
-
+  int loopCount = 0;
   /* Event loop never exits. */
   while (1)
   {
@@ -99,6 +117,20 @@ int main()
 		  IOWR_8DIRECT(PIOLEDS_BASE, 0, (0x80 >> i));
 		  usleep(100000);
 	  }
+	  printf("Loop Count = %d\n", loopCount);
+	  IOWR_32DIRECT(AVALONSLAVE_0_BASE, 0, 0xCAFE0123);
+	  IOWR_32DIRECT(AVALONSLAVE_0_BASE + 4, 0, 0xCAFE0123);
+	  readSlave();
+	  printf("---------\n");
+	  IOWR_16DIRECT(AVALONSLAVE_0_BASE, 0, 0xAAAA);
+	  IOWR_16DIRECT(AVALONSLAVE_0_BASE + 4, 0, 0xAAAA);
+	  readSlave();
+	  printf("---------\n");
+	  IOWR_8DIRECT(AVALONSLAVE_0_BASE, 2, 0x55);
+	  IOWR_8DIRECT(AVALONSLAVE_0_BASE + 4, 2, 0x55);
+	  readSlave();
+	  printf("----------------------------------------\n");
+	  loopCount++;
   }
 
   return 0;
