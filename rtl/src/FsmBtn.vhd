@@ -29,7 +29,7 @@ begin
     -- à écrire
     pBlocFM: process(Clk, ARst_N)
     begin
-        if ARst_N = '1' then
+        if ARst_N = '0' then
             CurrentST <= ST_RELEASED;
         elsif rising_edge(Clk) then
             case CurrentST is
